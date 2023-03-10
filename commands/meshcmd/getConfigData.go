@@ -1,14 +1,14 @@
 /*
 Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 */
-package ecscmd
+package meshcmd
 
 import (
 	"fmt"
 	"log"
 
-	"github.com/Appkube-awsx/awsx-ecs/authenticater"
-	"github.com/Appkube-awsx/awsx-ecs/client"
+	"github.com/Appkube-awsx/awsx-appmesh/authenticater"
+	"github.com/Appkube-awsx/awsx-appmesh/client"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/ecs"
 	"github.com/spf13/cobra"
@@ -17,8 +17,8 @@ import (
 // getConfigDataCmd represents the getConfigData command
 var GetConfigDataCmd = &cobra.Command{
 	Use:   "getConfigData",
-	Short: "MetaData for ECS Cluster",
-	Long:  `Getting Metadata for ECS cluster`,
+	Short: "MetaData for AppMesh",
+	Long:  `Getting Metadata for AppMesh`,
 	Run: func(cmd *cobra.Command, args []string) {
 
 		vaultUrl := cmd.Parent().PersistentFlags().Lookup("vaultUrl").Value.String()
@@ -33,36 +33,36 @@ var GetConfigDataCmd = &cobra.Command{
 		authFlag := authenticater.AuthenticateData(vaultUrl, accountNo, region, acKey, secKey, crossAccountRoleArn, externalId)
 
 		if authFlag {
-			clusterName, _ := cmd.Flags().GetString("cluster")
-			describeCluster(region, acKey, secKey, clusterName, crossAccountRoleArn, externalId)
+			meshName, _ := cmd.Flags().GetString("mesh")
+			describeMesh(region, acKey, secKey, meshName, crossAccountRoleArn, externalId)
 		}
 	},
 }
 
-func describeCluster(region string, accessKey string, secretKey string, clusterName string, crossAccountRoleArn string, externalID string) (*ecs.Cluster, error) {
-	log.Println("Getting ECS cluster data")
-	ecsClient := client.GetECSClient(region, accessKey, secretKey)
+func describeMesh(region string, accessKey string, secretKey string, meshName string, crossAccountRoleArn string, externalID string) (*ecs.mesh, error) {
+	log.Println("Getting AppMesh Metadata")
+	appmeshClient := client.GetClient(region, accessKey, secretKey)
 
-	input := &ecs.DescribeClustersInput{
-		Clusters: []*string{aws.String(clusterName)},
+	input := &appmesh.DescribeMeshInput{
+		Meshes: []*string{aws.String(meshName)},
 	}
 
-	ecsData, err := ecsClient.DescribeClusters(input)
+	meshData, err := appmeshClient.DescribeMesh(input)
 	if err != nil {
 		return nil, err
 	}
-	log.Println(ecsData)
-	if len(ecsData.Clusters) == 0 {
-		return nil, fmt.Errorf("cluster not found: %s", clusterName)
+	log.Println(meshData)
+	if len(meshData.Clusters) == 0 {
+		return nil, fmt.Errorf("mesh not found: %s", meshName)
 	}
 
-	return ecsData.Clusters[0], nil
+	return meshData.Clusters[0], nil
 }
 
 func init() {
-	GetConfigDataCmd.Flags().StringP("cluster", "c", "", "cluster name")
+	GetConfigDataCmd.Flags().StringP("mesh", "c", "", "mesh name")
 
-	if err := GetConfigDataCmd.MarkFlagRequired("cluster"); err != nil {
-		fmt.Println("--cluster is required", err)
+	if err := GetConfigDataCmd.MarkFlagRequired("mesh"); err != nil {
+		fmt.Println("--mesh is needed", err)
 	}
 }

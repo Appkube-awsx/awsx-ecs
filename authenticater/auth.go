@@ -3,7 +3,7 @@ package authenticater
 import (
 	"log"
 
-	"github.com/Appkube-awsx/awsx-ecs/vault"
+	"github.com/Appkube-awsx/awsx-appmesh/vault"
 )
 
 func AuthenticateData(vaultUrl string, accountNo string, region string, acKey string, secKey string, crossAccountRoleArn string, externalId string) bool {
