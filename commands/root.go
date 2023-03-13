@@ -4,6 +4,7 @@ Copyright © 2023 Manoj Sharma manoj.sharma@synectiks.com
 package commands
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/Appkube-awsx/awsx-appmesh/authenticater"
@@ -37,35 +38,6 @@ var AwsxServiceMeshCmd = &cobra.Command{
 
 	},
 }
-
-// func GetEcsList(region string, accessKey string, secretKey string, crossAccountRoleArn string, externalId string) *ecs.ListClustersOutput {
-// 	log.Println("Getting ECS cluster arn's list")
-// 	ecsClient := client.GetECSClient(region, accessKey, secretKey)
-// 	input := &ecs.ListClustersInput{}
-// 	result, err := ecsClient.ListClusters(input)
-// 	if err != nil {
-// 		log.Println("Error listing clusters:", err)
-// 		return nil
-// 	}
-
-// 	// print the cluster ARNs to console
-// 	for _, clusterArn := range result.ClusterArns {
-// 		fmt.Println(aws.StringValue(clusterArn))
-// 	}
-
-// 	log.Println(result)
-
-// 	// return the result object
-// 	return result
-// }
-
-// func Execute() {
-// 	err := AwsxEcsCmd.Execute()
-// 	if err != nil {
-// 		log.Fatal("There was some error while executing the CLI: ", err)
-// 		return
-// 	}
-// }
 
 func getAppmeshResources(region string, accessKey string, secretKey string, env string, crossAccountRoleArn string, externalId string) *appmesh.ListMeshesOutput {
 	log.Println("List of AWS Mesh")

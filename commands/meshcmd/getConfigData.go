@@ -10,7 +10,7 @@ import (
 	"github.com/Appkube-awsx/awsx-appmesh/authenticater"
 	"github.com/Appkube-awsx/awsx-appmesh/client"
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/service/ecs"
+	"github.com/aws/aws-sdk-go/service/appmesh"
 	"github.com/spf13/cobra"
 )
 
