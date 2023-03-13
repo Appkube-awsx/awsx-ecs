@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/Appkube-awsx/awsx-appmesh/commands"
+	"github.com/Appkube-awsx/awsx-ecs/commands"
 )
 
 func main() {

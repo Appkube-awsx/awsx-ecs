@@ -3,17 +3,17 @@ package client
 import (
 	"fmt"
 
-	"github.com/Appkube-awsx/awsx-appmesh/awssession"
+	"github.com/Appkube-awsx/awsx-ecs/awssession"
 	"github.com/aws/aws-sdk-go/service/costexplorer"
 
 	"log"
 
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/service/appmesh"
+	"github.com/aws/aws-sdk-go/service/ecs"
 	"github.com/aws/aws-sdk-go/service/sts"
 )
 
-func GetClient(region string, crossAccountRoleArn string, accessKey string, secretKey string, externalId string) *appmesh.appmesh {
+func GetClient(region string, crossAccountRoleArn string, accessKey string, secretKey string, externalId string) *ecs.ECS {
 
 	sessionName := "assume_role_session_name"
 	return assumeRole(crossAccountRoleArn, sessionName, externalId, accessKey, secretKey, region)
@@ -24,7 +24,7 @@ func GetCostClient(region string, crossAccountRoleArn string, accessKey string, 
 	return assumeRoleForCost(crossAccountRoleArn, sessionName, externalId, accessKey, secretKey, region)
 }
 
-func assumeRole(roleArn string, sessionName string, externalId string, accesskey string, secretKey string, region string) *appmesh.appmesh {
+func assumeRole(roleArn string, sessionName string, externalId string, accesskey string, secretKey string, region string) *ecs.ECS {
 	sess, err := awssession.GetSessionByCreds(region, accesskey, secretKey, "")
 
 	if err != nil {
@@ -60,9 +60,9 @@ func assumeRole(roleArn string, sessionName string, externalId string, accesskey
 		log.Fatal(err)
 	}
 
-	appmeshClient := ecs.New(awsSession)
+	ecsClient := ecs.New(awsSession)
 
-	return Client
+	return ecsClient
 }
 
 func assumeRoleForCost(roleArn string, sessionName string, externalId string, accesskey string, secretKey string, region string) *costexplorer.CostExplorer {
