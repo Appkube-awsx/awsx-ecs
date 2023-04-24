@@ -7,12 +7,15 @@ import (
 	"net/http"
 )
 
+
 type Response struct {
 	Region              string `json:"region,omitempty"`
 	AccessKey           string `json:"accessKey,omitempty"`
 	SecretKey           string `json:"secretKey,omitempty"`
 	CrossAccountRoleArn string `json:"crossAccountRoleArn,omitempty"`
+	ExternalId          string `json:"externalId,omitempty"`
 }
+
 
 func GetAccountDetails(vaultUrl string, accountNo string) (*Response, error) {
 	log.Println("Calling account details API")
