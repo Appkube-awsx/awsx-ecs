@@ -25,19 +25,19 @@ var AwsxEcsCmd = &cobra.Command{
 		acKey := cmd.PersistentFlags().Lookup("accessKey").Value.String()
 		secKey := cmd.PersistentFlags().Lookup("secretKey").Value.String()
 		crossAccountRoleArn := cmd.PersistentFlags().Lookup("crossAccountRoleArn").Value.String()
-		env := cmd.PersistentFlags().Lookup("env").Value.String()
+		// env := cmd.PersistentFlags().Lookup("env").Value.String()
 		externalId := cmd.PersistentFlags().Lookup("externalId").Value.String()
 
-		authFlag := authenticator.AuthenticateData(vaultUrl, accountNo, region, acKey, secKey, crossAccountRoleArn, env, externalId)
+		authFlag := authenticator.AuthenticateData(vaultUrl, accountNo, region, acKey, secKey, crossAccountRoleArn, externalId)
 
 		if authFlag {
-			getListCluster(region, crossAccountRoleArn, acKey, secKey, env, externalId)
+			getListCluster(region, crossAccountRoleArn, acKey, secKey, externalId)
 		}
 	},
 }
 
 // json.Unmarshal
-func getListCluster(region string, crossAccountRoleArn string, accessKey string, secretKey string, env string, externalId string) (*ecs.ListClustersOutput, error) {
+func getListCluster(region string, crossAccountRoleArn string, accessKey string, secretKey string, externalId string) (*ecs.ListClustersOutput, error) {
 	log.Println("getting ecs cluster arn  list summary")
 
 	listClusterClient := client.GetClient(region, crossAccountRoleArn, accessKey, secretKey, externalId)
@@ -68,7 +68,7 @@ func init() {
 	AwsxEcsCmd.PersistentFlags().String("zone", "", "aws region")
 	AwsxEcsCmd.PersistentFlags().String("accessKey", "", "aws access key")
 	AwsxEcsCmd.PersistentFlags().String("secretKey", "", "aws secret key")
-	AwsxEcsCmd.PersistentFlags().String("env", "", "aws env is required")
+	//AwsxEcsCmd.PersistentFlags().String("env", "", "aws env is required")
 	AwsxEcsCmd.PersistentFlags().String("crossAccountRoleArn", "", "aws crossAccountRoleArn is required")
 	AwsxEcsCmd.PersistentFlags().String("externalId", "", "aws external id auth")
 
