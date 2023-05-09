@@ -6,7 +6,6 @@ import (
 
 	"github.com/Appkube-awsx/awsx-ecs/authenticator"
 	"github.com/Appkube-awsx/awsx-ecs/client"
-	"github.com/Appkube-awsx/awsx-ecs/cmd/ecscmd"
 	"github.com/aws/aws-sdk-go/service/ecs"
 	"github.com/spf13/cobra"
 )
@@ -59,9 +58,6 @@ func Execute() {
 }
 
 func init() {
-	AwsxEcsCmd.AddCommand(ecscmd.GetConfigDataCmd)
-	AwsxEcsCmd.AddCommand(ecscmd.GetCostDataCmd)
-	AwsxEcsCmd.AddCommand(ecscmd.GetCostSpikeCmd)
 
 	AwsxEcsCmd.PersistentFlags().String("vaultUrl", "", "vault end point")
 	AwsxEcsCmd.PersistentFlags().String("accountId", "", "aws account number")
