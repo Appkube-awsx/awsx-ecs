@@ -60,8 +60,6 @@ func Execute() {
 
 func init() {
 	AwsxEcsCmd.AddCommand(ecscmd.GetConfigDataCmd)
-	AwsxEcsCmd.AddCommand(ecscmd.GetCostDataCmd)
-	AwsxEcsCmd.AddCommand(ecscmd.GetCostSpikeCmd)
 
 	AwsxEcsCmd.PersistentFlags().String("vaultUrl", "", "vault end point")
 	AwsxEcsCmd.PersistentFlags().String("accountId", "", "aws account number")
