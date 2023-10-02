@@ -47,6 +47,19 @@ func GetClusterList(auth client.Auth) ([]*ecs.DescribeClustersOutput, error) {
 	for _, clusterArn := range response.ClusterArns {
 		clusterDetail := ecscmd.GetCluster(client, *clusterArn)
 		allClusters = append(allClusters, clusterDetail)
+
+		for _, cluster := range clusterDetail.Clusters {
+			input := &ecs.ListTagsForResourceInput{
+				ResourceArn: cluster.ClusterArn,
+			}
+			tagOutput, err := client.ListTagsForResource(input)
+			if err != nil {
+				log.Println("Error:in getting ecs tag", err)
+				continue
+			}
+			cluster.SetTags(tagOutput.Tags)
+		}
+
 	}
 	log.Println(allClusters)
 	return allClusters, err
